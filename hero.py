@@ -1,5 +1,19 @@
 import random
 
+class Ability:
+    def __init__(self, ability_name, max_damage):
+        '''Instance properties
+            ability_name: String
+            max_damage: Integer
+        '''
+        self.ability_name = ability_name
+        self.max_damage = max_damage
+
+    def attack(self):
+        '''Return a value between 0 and the value set by self.max_damage'''
+        random_value = random.randint(0, self.max_damage)
+        return random_value
+
 class Hero:
     def __init__(self, hero_name, starting_health=100):
         '''Instance properties
@@ -26,11 +40,14 @@ class Hero:
 if __name__ == "__main__":
     my_hero = Hero("Grace Hopper", 200)
     other_hero = Hero("Papa", 120)
+    ability = Ability("Debug", 15)
+    print(ability.ability_name)
+    print(ability.attack())
 
-fights = 0
-score = 0
-while fights < 100:
-    score += my_hero.fight(other_hero)
-    fights += 1
+# fights = 0
+# score = 0
+# while fights < 100:
+#     score += my_hero.fight(other_hero)
+#     fights += 1
 
-print(f"{my_hero.hero_name} won {score} out of {fights} fights!")
+# print(f"{my_hero.hero_name} won {score} out of {fights} fights!")
