@@ -1,39 +1,84 @@
 import random
 from ability import Ability
+from armor import Armor
 
 class Hero:
     def __init__(self, hero_name, starting_health=100):
         '''Instance properties
+            abilities: list
+            armors: list
             name: String
             starting_health: Integer - default value: 100
             current_health: Integer
         '''
+        self.abilities = list()
+        self.armors = list()
         self.hero_name = hero_name
         self.starting_health = starting_health
         self.current_health = starting_health
 
     def add_ability(self, ability):
         '''
-        
+        Add an ability to the current hero's list of abilities
+            ability: ability object
         '''
+        self.abilities.append(ability)
+
+    def add_armor(self, armor):
+        '''
+        Add an armor to the current hero's list of armors
+            armor: armor object
+        '''
+        self.armors.append(armor)
 
     def attack(self):
         '''
+        Calculate total damage from all ability attacks.
+            return: total_damage, Integer
         '''
+        total_damage = 0
+        for ability in self.abilities:
+            current_damage = ability.attack()
+            total_damage += current_damage
+            print(f"{self.hero_name} is attacking with {ability.ability_name} for {current_damage} damage")
+        print(f"Total damage dealt by all abilities: {total_damage}")
+        return total_damage
 
     def defend(self, incoming_damage):
         '''
-        incoming_damage: Integer
-        '''    
+        Calculate the total block amount from all armor blocks
+            incoming_damage: Integer
+            return: unblocked_damage, Integer
+        '''
+        total_block = 0
+        for armor in self.armors:
+            current_block = armor.block()
+            total_block += current_block
+            print(f"{self.hero_name} is blocking with {armor.armor_name} for {current_block} blocked damage")
+        print(f"Total damage blocked by all armor: {total_block}")
+        if total_block >= incoming_damage:
+            unblocked_damage = 0
+        else:
+            unblocked_damage = incoming_damage - total_block
+        print(f"Unblocked damage: {unblocked_damage}")
+        return unblocked_damage
 
     def take_damage(self, damage):
         '''
-        damage: Integer
+        Subtracts the amount of unblocked damage after defending from self.current_health
+            damage: Integer
         '''
+        self.current_health -= damage
 
     def is_alive(self):
         '''
+        Return True or False depending on whether the hero is alive or not.
+            Returns alive, boolean
         '''
+        alive = True
+        if self.current_health <= 0:
+            alive = False
+        return alive
 
     def fight(self, opponent):
         '''
@@ -51,9 +96,24 @@ class Hero:
 if __name__ == "__main__":
     my_hero = Hero("Grace Hopper", 200)
     other_hero = Hero("Papa", 120)
-    ability = Ability("Debug", 15)
-    print(ability.ability_name)
-    print(ability.attack())
+
+    ability1 = Ability("Great Debugging", 50)
+    ability2 = Ability("Second Ability", 30)
+    armor1 = Armor("Mithril chain", 50)
+    armor2 = Armor("A big-ass shield", 20)
+    my_hero.add_ability(ability1)
+    my_hero.add_ability(ability2)
+    my_hero.add_armor(armor1)
+    my_hero.add_armor(armor2)
+    damage = my_hero.attack()
+    my_hero.take_damage(my_hero.defend(damage))
+    print(my_hero.is_alive())
+    print(my_hero.current_health)
+    my_hero.take_damage(500)
+    print(my_hero.is_alive())
+    print(my_hero.current_health)
+
+####TEST CODE AREA####
 
 # fights = 0
 # score = 0
@@ -62,3 +122,4 @@ if __name__ == "__main__":
 #     fights += 1
 
 # print(f"{my_hero.hero_name} won {score} out of {fights} fights!")
+
