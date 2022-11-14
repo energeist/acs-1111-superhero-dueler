@@ -2,6 +2,7 @@ import random
 from ability import Ability
 from armor import Armor
 from weapon import Weapon
+from team import Team
 
 class Hero:
     def __init__(self, hero_name, starting_health=100):
@@ -17,6 +18,8 @@ class Hero:
         self.hero_name = hero_name
         self.starting_health = starting_health
         self.current_health = starting_health
+        self.deaths = 0
+        self.kills = 0
 
     def add_ability(self, ability):
         '''
@@ -81,6 +84,20 @@ class Hero:
             alive = False
         return alive
 
+    def add_death(self, num_deaths):
+        '''
+        Setter for self.deaths property
+            num_deaths: Integer
+        '''
+        self.deaths += num_deaths
+
+    def add_kill(self, num_kills):
+        '''
+        Setter for self.kills property
+            num_kills: Integer
+        '''
+        self.kills += num_kills
+
     def fight(self, opponent):
         '''
         Current hero will take turns fighting the opponent hero passed in. Attack order is randomly chosen by round to ensure a fair fight, since we don't have a speed attribute (yet).
@@ -109,8 +126,15 @@ class Hero:
                     print(f"{attack_order[0].hero_name} has {attack_order[0].current_health} HP remaining.")
             if self.is_alive() == False:
                 print(f"{opponent.hero_name} wins the fight after {round} rounds!")
+                loser = self.hero_name
+                opponent.add_kill(1)
+                self.add_death(1)
             if opponent.is_alive() == False:
                 print(f"{self.hero_name} wins the fight after {round} rounds!")
+                loser = opponent.hero_name
+                self.add_kill(1)
+                opponent.add_death(1)
+        return loser
             
     # def fight(self, opponent):
     #     '''
