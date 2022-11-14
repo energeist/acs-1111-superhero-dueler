@@ -26,10 +26,8 @@ class Team:
         for hero in self.heroes:
             if hero.hero_name == hero_to_remove:
                 self.heroes.remove(hero)
-                print("found")
                 found_hero = True
         if not found_hero:
-            print("not found")
             return 0
 
     def view_all_heroes(self):
