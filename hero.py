@@ -104,8 +104,6 @@ class Hero:
         Current hero will take turns fighting the opponent hero passed in. Attack order is randomly chosen by round to ensure a fair fight, since we don't have a speed attribute (yet).
             opponent - hero object
         '''
-        print(len(self.abilities))
-        print(len(opponent.abilities))
         if len(self.abilities) == 0 and len(opponent.abilities) == 0:
             print("Neither hero has any abilities, the fight is a draw!")
         else:
@@ -127,14 +125,14 @@ class Hero:
                     print(f"{attack_order[0].hero_name} has {attack_order[0].current_health} HP remaining.")
             if self.is_alive() == False:
                 print(f"{opponent.hero_name} wins the fight after {round} rounds!")
-                loser = self.hero_name
+                loser = self
                 opponent.add_kill(1)
                 self.add_death(1)
             if opponent.is_alive() == False:
                 print(f"{self.hero_name} wins the fight after {round} rounds!")
-                loser = opponent.hero_name
+                loser = opponent
                 self.add_kill(1)
-                opponent.add_death(1)
+                opponent.add_death(1)            
         return loser
             
     # def fight(self, opponent):
@@ -151,9 +149,12 @@ class Hero:
     #     return self_score
 
 if __name__ == "__main__":
-    my_hero = Hero("Grace Hopper", 200)
-    other_hero = Hero("Papa", 175)
+    my_hero = Hero("Grace Hopper", 100)
+    other_hero = Hero("Papa", 100)
 
+####TEST CODE AREA####
+
+def solo_heroes_test():
     ability1 = Ability("WHERE'S WILL???", 10)
     ability2 = Ability("WHERE'S WILL??!!!?!?!", 25)
     armor1 = Armor("Mithril chain", 15)
@@ -172,16 +173,17 @@ if __name__ == "__main__":
     other_hero.add_ability(weapon2)
     other_hero.add_armor(armor1)
     other_hero.add_armor(armor2)
-    # damage = my_hero.attack()
-    # my_hero.take_damage(my_hero.defend(damage))
-    # print(my_hero.is_alive())
-    # print(my_hero.current_health)
-    # my_hero.take_damage(500)
-    # print(my_hero.is_alive())
-    # print(my_hero.current_health)
     my_hero.fight(other_hero)
 
-####TEST CODE AREA####
+def jodie_athena_test():
+    jodie = Hero("Jodie Foster", 100)
+    aliens = Ability("Alien Friends", 10000)
+    jodie.add_ability(aliens)
+    athena = Hero("Athena", 100)
+    socks = Armor("Socks", 10)
+    athena.add_armor(socks)
+    jodie.fight(athena)
+
 
 # fights = 0
 # score = 0
@@ -191,3 +193,29 @@ if __name__ == "__main__":
 
 # print(f"{my_hero.hero_name} won {score} out of {fights} fights!")
 
+def test_team_attack():
+    team_one = Team("One")
+    jodie = Hero("Jodie Foster")
+    brodie = Hero("Brodie Gloster")
+    aliens = Ability("Alien Friends", 10000)
+    jodie.add_ability(aliens)
+    brodie.add_ability(aliens)
+    team_one.add_hero(jodie)
+    team_one.add_hero(brodie)
+    print(team_one.heroes[0].hero_name)
+    print(team_one.heroes[1].hero_name)
+    team_two = Team("Two")
+    athena = Hero("Athena")
+    socks = Armor("Socks", 10)
+    juno = Hero("Juno")
+    juno.add_armor(socks)
+    athena.add_armor(socks)
+    team_two.add_hero(athena)
+    team_two.add_hero(juno)
+    print(team_two.heroes[0].hero_name)
+    print(team_two.heroes[1].hero_name) 
+    team_one.attack(team_two)
+
+# solo_heroes_test()
+test_team_attack()
+# jodie_athena_test()
