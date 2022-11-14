@@ -116,19 +116,24 @@ class Hero:
                 else:
                     attack_order = [opponent, self]
                 # first hero attacks second hero
+                print()
                 print(f"Round {round} - Attack order: {attack_order[0].hero_name} -> {attack_order[1].hero_name}.")
+                print()
                 attack_order[1].take_damage(attack_order[0].attack()-attack_order[1].defend())
                 print(f"{attack_order[1].hero_name} has {attack_order[1].current_health} HP remaining.")
                 if attack_order[1].is_alive():
                     # second hero attacks back if still alive
+                    print()
                     attack_order[0].take_damage(attack_order[1].attack()-attack_order[0].defend())
                     print(f"{attack_order[0].hero_name} has {attack_order[0].current_health} HP remaining.")
             if self.is_alive() == False:
+                print()
                 print(f"{opponent.hero_name} wins the fight after {round} rounds!")
                 loser = self
                 opponent.add_kill(1)
                 self.add_death(1)
             if opponent.is_alive() == False:
+                print()
                 print(f"{self.hero_name} wins the fight after {round} rounds!")
                 loser = opponent
                 self.add_kill(1)
@@ -217,5 +222,5 @@ def test_team_attack():
     team_one.attack(team_two)
 
 # solo_heroes_test()
-test_team_attack()
+# test_team_attack()
 # jodie_athena_test()

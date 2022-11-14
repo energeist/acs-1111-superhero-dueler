@@ -46,11 +46,11 @@ class Team:
         '''
         for hero in self.heroes:
             if hero.deaths == 0:
-                deaths = 0
+                deaths = 1
             else:
                 deaths = hero.deaths
             kd = hero.kills/deaths
-            print(f"{hero.name} Kill/Death ratio: {kd}")
+            print(f"{hero.hero_name} Kill/Death ratio: {kd}")
 
     def revive_heroes(self, health=100):
         '''
@@ -74,32 +74,13 @@ class Team:
             living_opponents.append(hero)
 
         while len(living_heroes) > 0 and len(living_opponents) > 0:
-        # i = 0
-        # while i < 2:
             random_hero = random.choice(living_heroes)
-            print("random hero: " + random_hero.hero_name)
             random_opponent = random.choice(living_opponents)
-            print("random opponent: " + random_opponent.hero_name)
             hero_to_remove = random_hero.fight(random_opponent)
-            print("hero to remove: " + hero_to_remove.hero_name)
             if hero_to_remove in living_heroes:
                 living_heroes.remove(hero_to_remove)
-                print("floop")
             else:
-                print("doink")
                 living_opponents.remove(hero_to_remove)
-            if living_heroes:
-                print(f"length of living_heroes: {len(living_heroes)}")
-                print(f"Remaining heroes for {self.team_name}")
-                for hero in living_heroes:
-                    print(f"{hero.hero_name}")
-            print()
-            if living_opponents:
-                print(f"length of living_opponents: {len(living_opponents)}")
-                print(f"Remaining heroes for {other_team.team_name}")
-                for hero in living_opponents:
-                    print(f"{hero.hero_name}")
-            print()
-            # i += 1
+
 
             

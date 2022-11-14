@@ -5,14 +5,14 @@ from hero import Hero
 from team import Team
 
 class Arena:
-  def __init__(self):
-    '''
-    Instantiate properties
-        team_one: None
-        team_two: None
-    '''
-    self.team_one = Team("Team One")
-    self.team_two = Team("Team Two")
+    def __init__(self):
+        '''
+        Instantiate properties
+            team_one: None
+            team_two: None
+        '''
+        self.team_one = Team("Team One")
+        self.team_two = Team("Team Two")
 
     def create_ability(self):
         '''
@@ -20,7 +20,7 @@ class Arena:
         return ability with values from user input
         '''
         ability_name = input("What is the ability name? > ")
-        max_damage = input("What is the max damage of the ability? > ")
+        max_damage = int(input("What is the max damage of the ability? > "))
         return Ability(ability_name, max_damage)
 
     def create_weapon(self):
@@ -29,7 +29,7 @@ class Arena:
         return weapon with values from user input
         '''
         weapon_name = input("What is the weapon name? > ")
-        max_damage = input("What is the max damage of the weapon? > ")
+        max_damage = int(input("What is the max damage of the weapon? > "))
         return Weapon(weapon_name, max_damage)
 
     def create_armor(self):
@@ -38,8 +38,8 @@ class Arena:
         return armor with values from user input
         '''
         armor_name = input("What is the armor name? > ")
-        max_damage = input("What is the max damage of the armor? > ")
-        return Armor(weapon_name, max_damage)
+        max_damage = int(input("What is the max block value of the armor? > "))
+        return Armor(armor_name, max_damage)
 
     def create_hero(self):
         '''
@@ -48,25 +48,25 @@ class Arena:
         '''
         hero_name = input("Hero's name > ")
         hero = Hero(hero_name)
-        add_time = None
+        add_item = None
         while add_item != "4":
             add_item = input("[1] Add ability\n[2] Add weapon\n[3] Add armor\n[4] Done adding items\n\nYour choice > ")
             if add_item == "1":
-                new_ability = create_ability(self)
-                hero.add_ability(ability)
+                new_ability = self.create_ability()
+                hero.add_ability(new_ability)
             elif add_item == "2":
-                new_weapon = create_weapon(self)
-                hero.add_weapon(weapon)
+                new_weapon = self.create_weapon()
+                hero.add_ability(new_weapon)
             elif add_item == "3":
-                new_armor = create_armor(self)
-                hero.add_armor(armor)
+                new_armor = self.create_armor()
+                hero.add_armor(new_armor)
         return hero
 
     def build_team_one(self):
         '''
         Prompt the user to build team_one
         '''
-        num_of_team_members = int(inpuit("How many members would you like on Team One? > "))
+        num_of_team_members = int(input("How many members would you like on Team One? > "))
         for i in range(num_of_team_members):
             hero = self.create_hero()
             self.team_one.add_hero(hero)
@@ -75,7 +75,7 @@ class Arena:
         '''
         Prompt the user to build team_one
         '''
-        num_of_team_members = int(inpuit("How many members would you like on Team Two? > "))
+        num_of_team_members = int(input("How many members would you like on Team Two? > "))
         for i in range(num_of_team_members):
             hero = self.create_hero()
             self.team_two.add_hero(hero)
@@ -84,7 +84,7 @@ class Arena:
         '''
         Battle team_one and team_two together
         '''
-        team_one.attack(team_two)
+        self.team_one.attack(self.team_two)
 
     def show_stats(self):
         '''
@@ -110,7 +110,7 @@ class Arena:
             team_deaths = 1
         print(self.team_one.team_name + " average K/D ratio was: " + str(team_kills/team_deaths))
         if len(team_survivors) > 0:
-            print(f"The surviving members of {team_one.team_name} are: {team_survivors}")
+            print(f"The surviving members of {arena.team_one.team_name} are: {team_survivors}")
 
 
         team_kills = 0
@@ -125,8 +125,31 @@ class Arena:
             team_deaths = 1
         print(self.team_two.team_name + " average K/D ratio was: " + str(team_kills/team_deaths))
         if len(team_survivors) > 0:
-            print(f"The surviving members of {team_one.team_name} are: {team_survivors}")
+            print(f"The surviving members of {arena.team_two.team_name} are: {team_survivors}")
 
+if __name__ == "__main__":
+    game_is_running = True
 
+    # Instantiate Game Arena
+    arena = Arena()
+
+    #Build Teams
+    arena.build_team_one()
+    arena.build_team_two()
+
+    while game_is_running:
+
+        arena.team_battle()
+        arena.show_stats()
+        play_again = input("Play Again? Y or N: ")
+
+        #Check for Player Input
+        if play_again.lower() == "n":
+            game_is_running = False
+
+        else:
+            #Revive heroes to play again
+            arena.team_one.revive_heroes()
+            arena.team_two.revive_heroes()
 
 
