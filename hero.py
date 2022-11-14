@@ -1,6 +1,7 @@
 import random
 from ability import Ability
 from armor import Armor
+from weapon import Weapon
 
 class Hero:
     def __init__(self, hero_name, starting_health=100):
@@ -82,7 +83,7 @@ class Hero:
 
     def fight(self, opponent):
         '''
-        Current hero will take turns fighting the opponent hero passed in.
+        Current hero will take turns fighting the opponent hero passed in. Attack order is randomly chosen by round to ensure a fair fight, since we don't have a speed attribute (yet).
             opponent - hero object
         '''
         print(len(self.abilities))
@@ -103,6 +104,7 @@ class Hero:
                 attack_order[1].take_damage(attack_order[1].defend(attack_order[0].attack()))
                 print(f"{attack_order[1].hero_name} has {attack_order[1].current_health} HP remaining.")
                 if attack_order[1].is_alive():
+                    # second hero attacks back if still alive
                     attack_order[0].take_damage(attack_order[0].defend(attack_order[1].attack()))
                     print(f"{attack_order[0].hero_name} has {attack_order[0].current_health} HP remaining.")
             if self.is_alive() == False:
@@ -133,12 +135,16 @@ if __name__ == "__main__":
     armor2 = Armor("A big-ass shield", 10)
     ability3 = Ability("Psionic Child Army", 35)
     ability4 = Ability("Splash", 5)
+    weapon1 = Weapon("Christmas Lights", 25)
+    weapon2 = Weapon("Gaslight", 25)
     my_hero.add_ability(ability1)
     my_hero.add_ability(ability2)
+    my_hero.add_ability(weapon1)
     my_hero.add_armor(armor1)
     my_hero.add_armor(armor2)
     other_hero.add_ability(ability3)
     other_hero.add_ability(ability4)
+    other_hero.add_ability(weapon2)
     other_hero.add_armor(armor1)
     other_hero.add_armor(armor2)
     # damage = my_hero.attack()
