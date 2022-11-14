@@ -324,7 +324,7 @@ def test_hero_equip_armor():
     gauntlets = Armor("Gauntlets", 30)
     jodie.add_armor(gauntlets)
     assert len(jodie.armors) == 1
-    assert jodie.armors[0].name == "Gauntlets"
+    assert jodie.armors[0].armor_name == "Gauntlets"
 
 
 def test_hero_defend_multi_armor():

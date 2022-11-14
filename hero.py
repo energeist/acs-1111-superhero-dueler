@@ -48,7 +48,7 @@ class Hero:
         print(f"Total damage dealt by all abilities: {total_damage}")
         return total_damage
 
-    def defend(self, incoming_damage):
+    def defend(self):
         '''
         Calculate the total block amount from all armor blocks
             incoming_damage: Integer
@@ -60,19 +60,20 @@ class Hero:
             total_block += current_block
             print(f"{self.hero_name} is blocking with {armor.armor_name} for {current_block} blocked damage")
         print(f"Total damage blocked by all armor: {total_block}")
-        if total_block >= incoming_damage:
-            unblocked_damage = 0
-        else:
-            unblocked_damage = incoming_damage - total_block
-        print(f"Unblocked damage: {unblocked_damage}")
-        return unblocked_damage
+        return total_block
 
     def take_damage(self, damage):
         '''
         Subtracts the amount of unblocked damage after defending from self.current_health
             damage: Integer
         '''
-        self.current_health -= damage
+        if damage > 0:
+            unblocked_damage = 0
+            print(f"Unblocked damage: {damage}")
+            self.current_health -= damage
+        else:
+            print(f"{self.hero_name} blocked all the incoming damage!")
+        
 
     def is_alive(self):
         '''
@@ -118,11 +119,11 @@ class Hero:
                     attack_order = [opponent, self]
                 # first hero attacks second hero
                 print(f"Round {round} - Attack order: {attack_order[0].hero_name} -> {attack_order[1].hero_name}.")
-                attack_order[1].take_damage(attack_order[1].defend(attack_order[0].attack()))
+                attack_order[1].take_damage(attack_order[0].attack()-attack_order[1].defend())
                 print(f"{attack_order[1].hero_name} has {attack_order[1].current_health} HP remaining.")
                 if attack_order[1].is_alive():
                     # second hero attacks back if still alive
-                    attack_order[0].take_damage(attack_order[0].defend(attack_order[1].attack()))
+                    attack_order[0].take_damage(attack_order[1].attack()-attack_order[0].defend())
                     print(f"{attack_order[0].hero_name} has {attack_order[0].current_health} HP remaining.")
             if self.is_alive() == False:
                 print(f"{opponent.hero_name} wins the fight after {round} rounds!")
